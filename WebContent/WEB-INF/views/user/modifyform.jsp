@@ -15,12 +15,12 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="join-form" name="joinForm" method="" action="/mysite/user">
+				<form id="join-form" name="joinForm" method="post" action="/mysite/user">
 					<input type="hidden" name="a" value="modify">
 					<label class="block-label" for="name">이름</label>
 					<input id="name" name="name" type="text" value="${name }">
 					
-					<label class="block-label">이전 패스워드</label>
+					<label class="block-label">  ${result == 'fail' ? '이전 패스워드를 확인해주세요.' : '이전 패스워드' }</label>
 					<input name="checkPw" type="password" value="">
 
 					<label class="block-label">새로운 패스워드</label>
@@ -34,8 +34,8 @@
 						<label>남</label> <input type="radio" name="gender" value="male">
 					</c:when>
 					<c:when test='${gender == "male" }'>
-						<label>여</label> <input type="radio" name="gender" value="female" checked='checked'>
-						<label>남</label> <input type="radio" name="gender" value="male">
+						<label>여</label> <input type="radio" name="gender" value="female">
+						<label>남</label> <input type="radio" name="gender" value="male" checked='checked'>
 					</c:when>
 					</c:choose>
 					</fieldset>

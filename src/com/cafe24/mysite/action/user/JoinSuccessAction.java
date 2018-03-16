@@ -1,4 +1,4 @@
-package com.cafe24.mvc.action.user;
+package com.cafe24.mysite.action.user;
 
 import java.io.IOException;
 

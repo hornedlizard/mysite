@@ -1,4 +1,4 @@
-package com.cafe24.mvc.action.user;
+package com.cafe24.mysite.action.user;
 
 import com.cafe24.mvc.action.AbstractActionFactory;
 import com.cafe24.mvc.action.Action;
@@ -21,7 +21,7 @@ public class UserActionFactory extends AbstractActionFactory {
 		} else if ("login".equals(actionName)) {
 			action = new LoginAction();
 		} else if ("logout".equals(actionName)) {
-			action = new LoginoutAction();
+			action = new LogoutAction();
 		} else if ("modifyform".equals(actionName)) {
 			action = new ModifyformAction();
 		} else if ("modify".equals(actionName)) {

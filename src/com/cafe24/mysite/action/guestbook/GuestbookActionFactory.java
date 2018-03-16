@@ -1,4 +1,4 @@
-package com.cafe24.mvc.action.guestbook;
+package com.cafe24.mysite.action.guestbook;
 
 import com.cafe24.mvc.action.AbstractActionFactory;
 import com.cafe24.mvc.action.Action;

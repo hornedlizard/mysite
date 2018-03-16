@@ -1,4 +1,4 @@
-package com.cafe24.mvc.action.user;
+package com.cafe24.mysite.action.user;
 
 import java.io.IOException;
 
@@ -23,6 +23,20 @@ public class ModifyformAction implements Action {
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
 			return;
 		}
+		
+		/*이전 패스워드가 다른 경우*/
+		if ("fail".equals(request.getParameter("result"))) {
+			request.setAttribute("result", "fail");
+
+			UserVo user = (UserVo) session.getAttribute("authUser");
+			request.setAttribute("no", user.getNo());
+			request.setAttribute("name", user.getName());
+			request.setAttribute("gender", user.getGender());
+			
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
+			return;
+		}
+		
 		UserVo user = (UserVo) session.getAttribute("authUser");
 		request.setAttribute("no", user.getNo());
 		request.setAttribute("name", user.getName());

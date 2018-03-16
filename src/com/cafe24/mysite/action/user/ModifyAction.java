@@ -1,4 +1,4 @@
-package com.cafe24.mvc.action.user;
+package com.cafe24.mysite.action.user;
 
 import java.io.IOException;
 
@@ -18,22 +18,22 @@ public class ModifyAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		if (session == null) {
-			// 인증 실패
-			request.setAttribute("result", "fail");
-			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
-			return;
-		}
-		
 		UserVo user = (UserVo) session.getAttribute("authUser");
 		String checkPw = request.getParameter("checkPw");
 		UserDao dao = new UserDao();
 		
-		if (dao.get(user.getEmail(), checkPw) == null) {
+		if (session == null || dao.get(user.getEmail(), checkPw) == null) {
+			// 인증 실패
+			request.setAttribute("result", "fail");
+			WebUtil.redirect(request, response, "/mysite/user?a=modifyform&result=fail");
+			return;
+		}
+		
+		/*if () {
 			request.setAttribute("result", "fail");
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
 			return;			
-		}
+		}*/
 		
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
