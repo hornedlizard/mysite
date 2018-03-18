@@ -32,7 +32,7 @@
 						<tr>
 							<td>${list.no }</td>
 							<td style="text-align:lft; padding-left:${20*2}">
-							<a href="/mysite/board?a=read&no=${list.no }">${list.title }</a>
+							<a href="/mysite/board?a=view&no=${list.no }">${list.title }</a>
 							</td>
 							<td>${list.userVo.name }</td>
 							<td>${list.hits }</td>

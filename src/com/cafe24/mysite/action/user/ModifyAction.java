@@ -22,28 +22,24 @@ public class ModifyAction implements Action {
 		String checkPw = request.getParameter("checkPw");
 		UserDao dao = new UserDao();
 		
-		if (session == null || dao.get(user.getEmail(), checkPw) == null) {
+		if (user == null || dao.get(user.getEmail(), checkPw) == null) {
 			// 인증 실패
-			request.setAttribute("result", "fail");
 			WebUtil.redirect(request, response, "/mysite/user?a=modifyform&result=fail");
 			return;
 		}
 		
-		/*if () {
-			request.setAttribute("result", "fail");
-			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
-			return;			
-		}*/
-		
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
+		if (password == "") {
+			password = checkPw;
+		}
+		
 		String gender = request.getParameter("gender");
 		user.setNo(user.getNo());
 		user.setName(name);
 		user.setPassword(password);
 		user.setGender(gender);
 		
-//		UserDao dao = new UserDao();
 		dao.update(user);
 		
 		// 인증 처리

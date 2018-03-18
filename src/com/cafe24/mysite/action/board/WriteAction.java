@@ -24,21 +24,19 @@ public class WriteAction implements Action {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-//		long groupNo = Long.parseLong(request.getParameter("groupNo"));
-//		System.out.println(request.getParameter("groupNo"));
-		/*long orderNo = Long.parseLong(request.getParameter("orderNo"));
-		long userNo = Long.parseLong(request.getParameter("userNo"));*/
+		Long groupNo = (request.getParameter("groupNo") == null ? 0 : Long.parseLong(request.getParameter("groupNo")));
+		Long orderNo = (request.getParameter("orderNo") == null ? 0 : Long.parseLong(request.getParameter("orderNo")));
+		Long depth = (request.getParameter("depth") == null ? 0 : Long.parseLong(request.getParameter("depth"))+1);
+		
 		BoardVo vo = new BoardVo();
 		UserVo userVo = (UserVo) session.getAttribute("authUser");
 		
 		vo.setUserVo(userVo);
 		vo.setTitle(title);
 		vo.setContent(content);
-//		vo.setGroupNo(groupNo);
-		
-		/*userVo.setNo(userNo);
-		vo.setOrderNo(orderNo);*/
-		
+		vo.setGroupNo(groupNo);
+		vo.setOrderNo(orderNo);
+		vo.setDepth(depth);
 		dao.insert(vo);
 		
 		WebUtil.redirect(request, response, "/mysite/board?a=list");

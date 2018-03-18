@@ -16,31 +16,26 @@ public class ModifyformAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		UserVo user = (UserVo) session.getAttribute("authUser");
 		
-		if (session == null || session.getAttribute("authUser") == null) {
+		if (user == null) {
 			// 인증 실패
 			request.setAttribute("result", "fail");
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
 			return;
 		}
 		
+		request.setAttribute("no", user.getNo());
+		request.setAttribute("name", user.getName());
+		request.setAttribute("gender", user.getGender());
 		/*이전 패스워드가 다른 경우*/
 		if ("fail".equals(request.getParameter("result"))) {
 			request.setAttribute("result", "fail");
-
-			UserVo user = (UserVo) session.getAttribute("authUser");
-			request.setAttribute("no", user.getNo());
-			request.setAttribute("name", user.getName());
-			request.setAttribute("gender", user.getGender());
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
 			return;
 		}
 		
-		UserVo user = (UserVo) session.getAttribute("authUser");
-		request.setAttribute("no", user.getNo());
-		request.setAttribute("name", user.getName());
-		request.setAttribute("gender", user.getGender());
 		WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
 	}
 

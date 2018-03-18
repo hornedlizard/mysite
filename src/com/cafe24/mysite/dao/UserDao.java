@@ -16,7 +16,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = MyConnection.getConnection();
 			String sql = "select no, name, email, gender " + 
 					"from users " + 
 					"where email = ? " + 
@@ -56,7 +56,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = MyConnection.getConnection();
 			String sql = "insert into users " + 
 						"values (null, ?, ?, password(?), ?, now())";
 			pstmt = conn.prepareStatement(sql);
@@ -91,7 +91,7 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = getConnection();
+			conn = MyConnection.getConnection();
 			String sql = "update users " + 
 						"set name = ?, password=password(?), gender = ? " + 
 						"where no=?";
@@ -113,15 +113,4 @@ public class UserDao {
 		return result;
 	}
 	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
 }

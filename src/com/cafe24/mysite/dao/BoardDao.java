@@ -17,18 +17,25 @@ public class BoardDao {
 	private PreparedStatement pstmt = null;
 	
 	public void insert(BoardVo vo) {
-	/*ifnull(?, ifnull(max(group_no)+1, 1))*/
 		try {
-			conn = getConnection();
-			String sql = "insert into board " 
-						+ "values(null, ?, ?, now(), 0, null, null, null, ? )";
+			conn = MyConnection.getConnection();
+			String sql = "insert into board "
+							+ "select "
+							+ "null, ?, ?, now(), 0, "
+//							+ "ifnull(ifnull(?, max(group_no)+1), 1), ifnull(?, 1), ifnull(?, 0), 1 " 
+							+ "if(?=0, max(group_no)+1, ?), "
+							+ "if(?=0, 1, ?+1), "
+							+ "if(?=0, 0, ?), 1 " 
+							+ "from board";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
-			/*pstmt.setLong(3, vo.getGroupNo());
-			pstmt.setLong(4, vo.getOrderNo());
-			pstmt.setLong(5, vo.getDepth());*/
-			pstmt.setLong(3, vo.getUserVo().getNo());
+			pstmt.setLong(3, vo.getGroupNo());
+			pstmt.setLong(4, vo.getGroupNo());
+			pstmt.setLong(5, vo.getOrderNo());
+			pstmt.setLong(6, vo.getOrderNo());
+			pstmt.setLong(7, vo.getDepth());
+			pstmt.setLong(8, vo.getDepth());
 			int count = pstmt.executeUpdate();
 			if (count == 0) {
 				System.out.println("게시판 등록 실패");
@@ -44,8 +51,8 @@ public class BoardDao {
 		ResultSet rs = null;
 		List<BoardVo> list = new ArrayList<>();
 		try {
-			conn = getConnection();
-			String sql = "select a.no, a.title, a.user_no, b.name, a.hit, a.regdate "
+			conn = MyConnection.getConnection();
+			String sql = "select a.no, a.title, a.user_no, b.name, a.hits, a.regdate "
 						+ "from board a, users b "
 						+ "where a.user_no = b.no "
 						+ "order by a.regdate desc";
@@ -74,10 +81,10 @@ public class BoardDao {
 		ResultSet rs = null;
 		BoardVo vo = new BoardVo();
 		try {
-			conn = getConnection();
-			String sql = "select a.no, a.title, a.content, a.user_no, b.name, a.hit, a.regdate "
+			conn = MyConnection.getConnection();
+			String sql = "select a.no, a.title, a.content, a.user_no, b.name, a.hits, a.regdate "
 						+ "from board a, users b "
-						+ "where a.no = ?"
+						+ "where a.no = ? "
 						+ "and a.user_no = b.no";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);
@@ -100,15 +107,29 @@ public class BoardDao {
 		return vo;
 	}
 	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
+	public boolean update(BoardVo vo) {
+		boolean result = false;
+		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
+			conn = MyConnection.getConnection();
+			String sql = "update board " + 
+						"set title = ?, content = ? " + 
+						"where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setLong(3, vo.getNo());
+			int count = pstmt.executeUpdate();
+			if (count == 0) {
+				System.out.println("게시물 수정 실패");
+			} else {
+				result = true;
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return conn;
+		
+		return result;
 	}
+	
 }

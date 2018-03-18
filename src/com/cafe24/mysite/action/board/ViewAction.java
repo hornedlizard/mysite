@@ -7,14 +7,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cafe24.mvc.action.Action;
+import com.cafe24.mvc.util.WebUtil;
+import com.cafe24.mysite.dao.BoardDao;
 import com.cafe24.mysite.vo.BoardVo;
 
-public class ReadAction implements Action {
+public class ViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		BoardVo vo = new BoardVo();
-
+		BoardDao dao = new BoardDao();
+		long no = Long.parseLong(request.getParameter("no"));
+		BoardVo vo = dao.getBoard(no);
+		
+		request.setAttribute("vo", vo);
+		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
 	}
 
 }

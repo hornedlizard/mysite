@@ -18,7 +18,7 @@ public class GuestbookDao {
 	public void insertGuestbook(GuestbookVo vo) {
 		
 		try {
-			conn = getConnection();
+			conn = MyConnection.getConnection();
 			String sql = "insert into guestbook values(null, ?, password(?), ?, now())";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
@@ -40,10 +40,10 @@ public class GuestbookDao {
 		ResultSet rs = null;
 		List<GuestbookVo> list = new ArrayList<>();
 		try {
-			conn = getConnection();
-			String sql = "select no, name, content, reg_date "
+			conn = MyConnection.getConnection();
+			String sql = "select no, name, content, regdate "
 						+ "from guestbook "
-						+ "order by reg_date desc";
+						+ "order by regdate desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -63,7 +63,7 @@ public class GuestbookDao {
 	
 	public void deleteGuestbook(long no, String password) {
 		try {
-			conn = getConnection();
+			conn = MyConnection.getConnection();
 			System.out.println(no+password);
 			String sql = "delete from guestbook "
 						+ "where no = ? "
@@ -85,8 +85,8 @@ public class GuestbookDao {
 		ResultSet rs = null;
 		HashMap<Boolean, GuestbookVo> checkPassword = new HashMap<>();
 		try {
-			conn = getConnection();
-			String sql ="select no, name, content, reg_date "
+			conn = MyConnection.getConnection();
+			String sql ="select no, name, content, regdate "
 					+ "from guestbook "
 					+ "where no = ? "
 					+ "and password = password(?)";
@@ -110,15 +110,4 @@ public class GuestbookDao {
 		return checkPassword;
 	}
 	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
 }

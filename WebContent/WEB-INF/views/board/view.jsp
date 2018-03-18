@@ -32,8 +32,10 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="">글목록</a>
-					<a href="">글수정</a>
+					<a href="/mysite/board?a=list">글목록</a>
+					<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
+						<a href="/mysite/board?a=modify&no=${vo.no }">글수정</a>
+					</c:if>
 				</div>
 			</div>
 		</div>
