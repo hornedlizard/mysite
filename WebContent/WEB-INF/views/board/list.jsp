@@ -70,13 +70,23 @@
 				</table>
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
+						<c:if test="${vo.prev}">
+							<li><a href="">◀</a></li>
+						</c:if>
+						<c:forEach begin="${vo.startPage }" end="${vo.endPage }" var="idx">
+				            <li
+				                <c:out value="${vo.page == idx ? 'class = selected' : ''}"/>>
+				                <a href="list?page=${idx}">${idx}</a>
+				            </li>
+				        </c:forEach>
 						<li><a href="">1</a></li>
 						<li><a href="">2</a></li>
 						<li class="selected">3</li>
 						<li><a href="">4</a></li>
 						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:if test="${vo.next}">
+							<li><a href="">▶</a></li>
+						</c:if>
 					</ul>
 				</div>				
 				<div class="bottom">

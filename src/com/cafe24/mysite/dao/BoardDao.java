@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.GuestbookVo;
+import com.cafe24.mysite.vo.PageVo;
 import com.cafe24.mysite.vo.UserVo;
 
 public class BoardDao {
@@ -68,18 +69,18 @@ public class BoardDao {
 		}
 	}
 	
-	public List<BoardVo> getList() {
+	public List<BoardVo> getList(PageVo page) {
 		ResultSet rs = null;
 		List<BoardVo> list = new ArrayList<>();
 		try {
 			conn = MyConnection.getConnection();
-			String sql = "select a.no, a.title, a.user_no, b.name, a.hits, a.regdate, a.is_delete, a.depth "
+			String sql = "select a.no, a.title, a.user_no, b.name, a.hits, a.regdate, a.depth "
 						+ "from board a, users b "
 						+ "where a.user_no = b.no "
 						+ "order by group_no desc, order_no asc, a.regdate desc "
-						+ "limit 0, 15";
+						+ "limit ?, 5";
 			pstmt = conn.prepareStatement(sql);
-//			pstmt.setLong(1, x);
+			pstmt.setLong(1, page.getStartData());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				BoardVo vo = new BoardVo();
@@ -91,8 +92,8 @@ public class BoardDao {
 				vo.setUserVo(userVo);
 				vo.setHits(rs.getLong(5));
 				vo.setRegdate(rs.getString(6));
-				vo.setIsDelete(rs.getBoolean(7));
-				vo.setDepth(rs.getLong(8));
+//				vo.setIsDelete(rs.getBoolean(7));
+				vo.setDepth(rs.getLong(7));
 				list.add(vo);
 			}
 		} catch (SQLException e) {
@@ -196,6 +197,23 @@ public class BoardDao {
 		}
 		
 		return result;
+	}
+	
+	public int getTotalData() {
+		conn = MyConnection.getConnection();
+		ResultSet rs = null;
+		int totalData = 0;
+		String sql = "select count(no) from board";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				totalData = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return totalData;
 	}
 	
 }

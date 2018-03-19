@@ -21,8 +21,8 @@ public class MyConnection {
 	private static Connection makeConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
+			String url = "jdbc:mysql://localhost/test";
+			conn = DriverManager.getConnection(url, "tester", "1541");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

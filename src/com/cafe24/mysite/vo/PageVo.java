@@ -2,59 +2,87 @@ package com.cafe24.mysite.vo;
 
 public class PageVo {
 	private int page;
-	private long totalPost;
-	private long postPerPage = 10;
-	private long totalPage = (long) Math.ceil(postPerPage / totalPost);
-	private long startData;
-	private long endData;
-	private boolean isPrev;
-	private boolean isNext;
+	private int totalData;
+	private int dataPerPage = 10;
+	private int displayPage = 5;
+	private int totalPage;
+	private int startData;
+	private int endData;
+	private int startPage;
+	private int endPage;
+	private boolean prev;
+	private boolean next;
 	
+	public PageVo() {
+		this.page = 1;
+	}
 	public int getPage() {
 		return page;
 	}
 	public void setPage(int page) {
+		if (page <= 0) {
+			this.page = 1;
+			return;
+		}
 		this.page = page;
 	}
-	public long getTotalPost() {
-		return totalPost;
+	public long getTotalData() {
+		return totalData;
 	}
-//	public long getPostPerPage() {
-//		return postPerPage;
-//	}
-//	public void setPostPerPage(long postPerPage) {
-//		this.postPerPage = postPerPage;
-//	}
+	public void setTotalData(int totalData) {
+		this.totalData = totalData;
+	}
 	public long getTotalPage() {
-		return totalPage;
+		return (int) Math.ceil(totalData / dataPerPage);
 	}
-	public void setTotalPage(long totalPage) {
+	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
-	public long getStartData() {
-		return startData;
+	public int getStartData() {
+		return (page-1) * dataPerPage;
 	}
-	public void setStartData(long page) {
-		this.startData = (page -1) * this.postPerPage;
+	public void setStartData(int startData) {
+		this.startData = startData;
 	}
-	public long getEndData() {
-		return endData;
+	public int getEndData() {
+		return page * dataPerPage;
 	}
-	public void setEndData(long page) {
-		this.endData = page * postPerPage;
+	public void setEndData(int endData) {
+		this.endData = endData;
 	}
-	public boolean getIsPrev() {
-		return isPrev;
+	public int getStartPage() {
+		return endPage - displayPage + 1;
 	}
-	public void setPrev(boolean isPrev) {
-		this.isPrev = isPrev;
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
 	}
-	public boolean getIsNext() {
-		return isNext;
+	public int getEndPage() {
+		return (int) (Math.ceil(page/displayPage) * displayPage);
 	}
-	public void setIsNext(boolean isNext) {
-		this.isNext = isNext;
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+	public boolean getPrev() {
+		return prev = startPage == 1 ? false : true;
+	}
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+	public boolean getNext() {
+		return next = endPage * dataPerPage >= totalData ? false : true;
+	}
+	public void setNext(boolean next) {
+		this.next = next;
 	}
 	
+	public void paging() {
+		this.totalPage = (int) Math.ceil(totalData / dataPerPage);
+		this.startData = (page-1) * dataPerPage;
+		this.endData = page * dataPerPage;
+		this.endPage = (int) (Math.ceil(page/displayPage) * displayPage);
+		this.startPage = endPage - displayPage + 1;
+		this.prev = startPage == 1 ? false : true;
+		this.next = endPage * dataPerPage >= totalData ? false : true; 
+	}
 	
 }
