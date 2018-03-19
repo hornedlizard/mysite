@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 
 import com.cafe24.mvc.action.Action;
 import com.cafe24.mvc.util.WebUtil;
+import com.cafe24.mysite.dao.BoardDao;
+import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.UserVo;
 
-public class WriteformAction implements Action {
+public class ReplyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,6 +26,14 @@ public class WriteformAction implements Action {
 			WebUtil.redirect(request, response, "/mysite/user?a=loginform");
 			return;
 		}
+		
+		BoardDao dao = new BoardDao();
+		long no = Long.parseLong(request.getParameter("no"));
+		BoardVo vo = dao.getBoard(no);
+		request.setAttribute("groupNo", vo.getGroupNo());
+		request.setAttribute("orderNo", vo.getOrderNo());
+		request.setAttribute("depth", vo.getDepth());
+		
 		WebUtil.forward(request, response, "/WEB-INF/views/board/write.jsp");
 	}
 

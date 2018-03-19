@@ -10,9 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.cafe24.mvc.action.Action;
 import com.cafe24.mvc.util.WebUtil;
 import com.cafe24.mysite.dao.BoardDao;
-import com.cafe24.mysite.dao.GuestbookDao;
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.GuestbookVo;
 import com.cafe24.mysite.vo.UserVo;
 
 public class WriteAction implements Action {
@@ -24,13 +22,21 @@ public class WriteAction implements Action {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		Long groupNo = (request.getParameter("groupNo") == null ? 0 : Long.parseLong(request.getParameter("groupNo")));
-		Long orderNo = (request.getParameter("orderNo") == null ? 0 : Long.parseLong(request.getParameter("orderNo")));
-		Long depth = (request.getParameter("depth") == null ? 0 : Long.parseLong(request.getParameter("depth"))+1);
+		
+		String gno = request.getParameter("groupNo");
+		String ono = request.getParameter("orderNo");
+		String dep = request.getParameter("depth");
+		
+		Long groupNo = (request.getParameter("groupNo") == "" ? 0 : Long.parseLong(request.getParameter("groupNo")));
+		Long orderNo = (request.getParameter("orderNo") == "" ? 0 : Long.parseLong(request.getParameter("orderNo")));
+		Long depth = (request.getParameter("depth") == "" ? 0 : Long.parseLong(request.getParameter("depth"))+1);
+		
+		if (gno != "" && ono != "" && dep != "") {
+			dao.updateOrderNo(groupNo, orderNo);
+		}
 		
 		BoardVo vo = new BoardVo();
 		UserVo userVo = (UserVo) session.getAttribute("authUser");
-		
 		vo.setUserVo(userVo);
 		vo.setTitle(title);
 		vo.setContent(content);

@@ -21,6 +21,10 @@ public class BoardActionFactory extends AbstractActionFactory {
 			action = new ModifyAction();
 		} else if ("update".equals(actionName)) {
 			action = new UpdateAction();
+		} else if ("delete".equals(actionName)) {
+			action = new DeleteAction();
+		} else if ("reply".equals(actionName)) {
+			action = new ReplyAction();
 		} else {
 			action = new ListAction();
 		}

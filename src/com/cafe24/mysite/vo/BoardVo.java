@@ -10,6 +10,7 @@ public class BoardVo {
 	private long orderNo;
 	private long depth;
 	private UserVo userVo;
+	private boolean isDelete;
 	
 	public long getNo() {
 		return no;
@@ -65,12 +66,18 @@ public class BoardVo {
 	public void setUserVo(UserVo userVo) {
 		this.userVo = userVo;
 	}
+	public boolean getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(boolean isDelete) {
+		this.isDelete = isDelete;
+	}
 	
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", regdate=" + regdate + ", hits="
 				+ hits + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userVo=" + userVo
-				+ "]";
+				+ ", isDelete=" + isDelete + "]";
 	}
 	
 }

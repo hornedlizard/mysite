@@ -41,9 +41,9 @@ public class GuestbookDao {
 		List<GuestbookVo> list = new ArrayList<>();
 		try {
 			conn = MyConnection.getConnection();
-			String sql = "select no, name, content, regdate "
+			String sql = "select no, name, content, reg_date "
 						+ "from guestbook "
-						+ "order by regdate desc";
+						+ "order by reg_date desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%
+	pageContext.setAttribute("newLine", "\n");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,12 +29,13 @@
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								${vo.content }
+								${fn:replace(vo.content, newLine, "<br>") }
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
+					<a href="/mysite/board?a=reply&no=${vo.no }">답글</a>
 					<a href="/mysite/board?a=list">글목록</a>
 					<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
 						<a href="/mysite/board?a=modify&no=${vo.no }">글수정</a>

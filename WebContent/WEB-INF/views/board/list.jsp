@@ -29,16 +29,43 @@
 					</tr>
 					<c:set value="${fn:length(list) }" var="count" />
 					<c:forEach items="${list }" var="list" varStatus="status">
-						<tr>
-							<td>${list.no }</td>
-							<td style="text-align:lft; padding-left:${20*2}">
-							<a href="/mysite/board?a=view&no=${list.no }">${list.title }</a>
-							</td>
-							<td>${list.userVo.name }</td>
-							<td>${list.hits }</td>
-							<td>${list.regdate }</td>
-							<td><a href="/mysite/board?a=delete&no=${list.no }" class="del">삭제</a></td>
-						</tr>
+						<c:choose>
+							<c:when test="${list.isDelete == false }">
+								<tr>
+									<td>${list.no }</td>
+									<td style="text-align:left; padding-left:${list.depth*10 }px">
+										<c:choose>
+											<c:when test="${list.depth != 0 }">
+												<img alt="...." src="assets/images/reply.png">
+											</c:when>
+										</c:choose>
+									<a href="/mysite/board?a=view&no=${list.no }">${list.title }</a>
+									</td>
+									<td>${list.userVo.name }</td>
+									<td>${list.hits }</td>
+									<td>${list.regdate }</td>
+									<td>
+										<a href="/mysite/board?a=delete&no=${list.no }" class="del">삭제</a>
+										<%-- <c:choose>
+											<c:when test="${list.userVo.no == sessionScope.authUser.no }">
+											</c:when>
+										</c:choose> --%>
+									</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td>${list.no }</td>
+									<td>
+										삭제된 댓글입니다.
+									</td>
+									<td>${list.userVo.name }</td>
+									<td>${list.hits }</td>
+									<td>${list.regdate }</td>
+									<td><a class="del">삭제</a></td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</table>
 				<div class="pager">

@@ -41,9 +41,12 @@ public class ModifyAction implements Action {
 		}
 		
 		long no = Long.parseLong(request.getParameter("no"));
-		request.getParameter("no");
-		request.getParameter("title");
-		request.getParameter("content");
+		BoardDao dao = new BoardDao();
+		BoardVo vo = dao.getBoard(no);
+		/*String content = request.getParameter("content");
+		request.setAttribute("no", no);
+		request.setAttribute("title", title);*/
+		request.setAttribute("vo", vo);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/board/modify.jsp");
 	}

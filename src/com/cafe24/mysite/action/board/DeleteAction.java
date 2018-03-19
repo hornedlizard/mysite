@@ -7,24 +7,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cafe24.mvc.action.Action;
+import com.cafe24.mvc.util.CheckAuth;
 import com.cafe24.mvc.util.WebUtil;
 import com.cafe24.mysite.dao.BoardDao;
-import com.cafe24.mysite.vo.BoardVo;
 
-public class ViewAction implements Action {
+public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		BoardDao dao = new BoardDao();
-		long no = Long.parseLong(request.getParameter("no"));
-		BoardVo vo = dao.getBoard(no);
-		if (vo.getIsDelete() == true) {
+		if(CheckAuth.loginCheck(request, response) == false) {
+			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
+			return;
+		}
+		if(CheckAuth.boardAuth(request, response) == false) {
 			WebUtil.redirect(request, response, "/mysite/board?a=list");
 			return;
 		}
-		dao.updateHits(no);
-		request.setAttribute("vo", vo);
-		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
+		
+		long no = Long.parseLong(request.getParameter("no"));
+		BoardDao dao = new BoardDao();
+		dao.delete(no);
+		
+		WebUtil.redirect(request, response, "/mysite/board?a=list");
 	}
 
 }
