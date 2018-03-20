@@ -41,20 +41,21 @@
 						<a href="/mysite/board?a=modify&no=${vo.no }">글수정</a>
 					</c:if>
 				</div>
+				<form action="/mysite/comment?a=add" method="post">
 				<table class="tbl-ex">
-					<tr><th>댓글</th></tr>
+					<tr><th colspan=4>댓글</th></tr>
 					<tr>
-							<td class="label">제목</td>
-							<td><input type="text" name="title" value=""></td>
-						</tr>
-						<tr>
-							<td class="label">내용</td>
-							<td>
-								<textarea id="content" name="content"></textarea>
-							</td>
-						</tr>
-					
+						<td></td>
+					</tr>
+					<tr>
+						<td class="label">내용</td>
+					<td>
+						<textarea id="content" name="content"></textarea>
+					</td>
+					</tr>
+					<tr><td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td></tr>
 				</table>
+				</form>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">

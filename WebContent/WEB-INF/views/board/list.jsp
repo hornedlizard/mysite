@@ -47,10 +47,6 @@
 									<td>${list.regdate }</td>
 									<td>
 										<a href="/mysite/board?a=delete&no=${list.no }" class="del">삭제</a>
-										<%-- <c:choose>
-											<c:when test="${list.userVo.no == sessionScope.authUser.no }">
-											</c:when>
-										</c:choose> --%>
 									</td>
 								</tr>
 							</c:when>
@@ -58,7 +54,7 @@
 								<tr>
 									<td>${list.no }</td>
 									<td>
-										삭제된 댓글입니다.
+										삭제된 글입니다.
 									</td>
 									<td>${list.userVo.name }</td>
 									<td>${list.hits }</td>

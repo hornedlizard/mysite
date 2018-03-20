@@ -17,7 +17,7 @@ public class ViewAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BoardDao dao = new BoardDao();
 		long no = Long.parseLong(request.getParameter("no"));
-		long page = Long.parseLong(request.getParameter("page"));
+		int page = Integer.parseInt(request.getParameter("page") == null ? "1": request.getParameter("page"));
 		BoardVo vo = dao.getBoard(no);
 		if (vo.getIsDelete() == true) {
 			WebUtil.redirect(request, response, "/mysite/board?a=list");

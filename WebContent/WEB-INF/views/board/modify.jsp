@@ -23,6 +23,7 @@
 							<td class="label">제목</td>
 							<td>
 								<input type="hidden" name="no" value="${vo.no }">
+								<input type="hidden" name="page" value="${page }">
 								<input type="text" name="title" value="${vo.title }">
 							</td>
 						</tr>

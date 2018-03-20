@@ -19,18 +19,7 @@ public class ModifyAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserVo user = (UserVo) request.getSession().getAttribute("authUser");
-		
-		/*if (user == null) {
-			// 인증 실패
-			request.setAttribute("result", "fail");
-			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
-			return;
-		}*/
-		/*if (user.getNo() != userNo) {
-			request.setAttribute("result", "fail");			
-			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
-			return;
-		}*/
+
 		if(CheckAuth.loginCheck(request, response) == false) {
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
 			return;
@@ -43,9 +32,8 @@ public class ModifyAction implements Action {
 		long no = Long.parseLong(request.getParameter("no"));
 		BoardDao dao = new BoardDao();
 		BoardVo vo = dao.getBoard(no);
-		/*String content = request.getParameter("content");
-		request.setAttribute("no", no);
-		request.setAttribute("title", title);*/
+		int page = Integer.parseInt(request.getParameter("page") == null ? "1": request.getParameter("page"));
+		request.setAttribute("page", page);
 		request.setAttribute("vo", vo);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/board/modify.jsp");

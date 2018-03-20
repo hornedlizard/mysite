@@ -26,6 +26,7 @@ public class UpdateAction implements Action {
 		}
 		
 		long no = Long.parseLong(request.getParameter("no"));
+		int page = Integer.parseInt(request.getParameter("page") == null ? "1": request.getParameter("page"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		BoardVo vo = new BoardVo();
@@ -36,7 +37,7 @@ public class UpdateAction implements Action {
 		BoardDao dao = new BoardDao();
 		dao.update(vo);
 		
-		WebUtil.redirect(request, response, "/mysite/board?a=view&no="+no);
+		WebUtil.redirect(request, response, "/mysite/board?a=view&no="+no+"&page="+page);
 	}
 
 }
