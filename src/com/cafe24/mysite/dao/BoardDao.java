@@ -69,18 +69,23 @@ public class BoardDao {
 		}
 	}
 	
-	public List<BoardVo> getList(PageVo page) {
+	public List<BoardVo> getList(PageVo page, String keyword) {
 		ResultSet rs = null;
 		List<BoardVo> list = new ArrayList<>();
 		try {
 			conn = MyConnection.getConnection();
-			String sql = "select a.no, a.title, a.user_no, b.name, a.hits, a.regdate, a.depth "
+			String sql = "select a.no, a.title, a.user_no, b.name, a.hits, a.regdate, a.is_delete, a.depth "
 						+ "from board a, users b "
 						+ "where a.user_no = b.no "
+						+ "and (a.title like ? or a.content like ?) "
+						+ "and a.is_delete = 0 "
 						+ "order by group_no desc, order_no asc, a.regdate desc "
-						+ "limit ?, 5";
+						+ "limit ?, ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, page.getStartData());
+			pstmt.setString(1, (keyword == null ? "%" : "%"+keyword+"%"));
+			pstmt.setString(2, (keyword == null ? "%" : "%"+keyword+"%"));
+			pstmt.setLong(3, page.getStartData());
+			pstmt.setLong(4, page.getDataPerPage());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				BoardVo vo = new BoardVo();
@@ -92,8 +97,65 @@ public class BoardDao {
 				vo.setUserVo(userVo);
 				vo.setHits(rs.getLong(5));
 				vo.setRegdate(rs.getString(6));
-//				vo.setIsDelete(rs.getBoolean(7));
-				vo.setDepth(rs.getLong(7));
+				vo.setIsDelete(rs.getBoolean(7));
+				vo.setDepth(rs.getLong(8));
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public int searchCount(String keyword) {
+		conn = MyConnection.getConnection();
+		ResultSet rs = null;
+		int totalData = 0;
+		String sql = "select count(*) from board "
+					+ "where title like ? "
+					+ "and is_delete = 0";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, (keyword == null ? "%" : "%"+keyword+"%"));
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				totalData = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return totalData;
+	}
+	
+	public List<BoardVo> search(PageVo page, String keyword) {
+		ResultSet rs = null;
+		List<BoardVo> list = new ArrayList<>();
+		try {
+			conn = MyConnection.getConnection();
+			String sql = "select a.no, a.title, a.user_no, b.name, a.hits, a.regdate, a.is_delete, a.depth "
+						+ "from board a, users b "
+						+ "where a.title || a.content like ? "
+						+ "and a.user_no = b.no "
+						+ "order by group_no desc, order_no asc, a.regdate desc "
+						+ "limit ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setLong(2, page.getStartData());
+			pstmt.setLong(3, page.getDataPerPage());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				BoardVo vo = new BoardVo();
+				UserVo userVo = new UserVo();
+				vo.setNo(rs.getLong(1));
+				vo.setTitle(rs.getString(2));
+				userVo.setNo(rs.getLong(3));
+				userVo.setName(rs.getString(4));
+				vo.setUserVo(userVo);
+				vo.setHits(rs.getLong(5));
+				vo.setRegdate(rs.getString(6));
+				vo.setIsDelete(rs.getBoolean(7));
+				vo.setDepth(rs.getLong(8));
 				list.add(vo);
 			}
 		} catch (SQLException e) {

@@ -20,6 +20,11 @@ public class AddAction implements Action {
 		String password = request.getParameter("password");
 		String content = request.getParameter("content");
 		
+		if (name == "" || password == ""|| content == "") {
+			WebUtil.redirect(request, response, "/mysite/guestbook?a=list");
+			return;
+		}
+		
 		GuestbookVo vo = new GuestbookVo();
 		vo.setName(name);
 		vo.setPassword(password);

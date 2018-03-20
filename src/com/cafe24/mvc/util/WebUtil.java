@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class WebUtil {
 	
-	public static long checkParameter(String value, long defaultValue) {
-		return 0;
-	}
-	
 	public static void requestCharSet(
 			HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("utf-8");

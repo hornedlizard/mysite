@@ -13,11 +13,12 @@ import com.cafe24.mysite.dao.BoardDao;
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.PageVo;
 
-public class ListAction implements Action {
+public class SearchAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BoardDao dao = new BoardDao();
+		
 		PageVo vo = new PageVo();
 		String keyword = request.getParameter("kwd");
 		int totalData = dao.searchCount(keyword);
@@ -25,7 +26,7 @@ public class ListAction implements Action {
 		int page = Integer.parseInt(request.getParameter("page") == null ? "1": request.getParameter("page"));
 		vo.setPage(page);
 		vo.paging();
-		List<BoardVo> list = dao.getList(vo, keyword);
+		List<BoardVo> list = dao.search(vo, keyword);
 		request.setAttribute("list", list);
 		request.setAttribute("page", vo);
 		request.setAttribute("kwd", keyword);

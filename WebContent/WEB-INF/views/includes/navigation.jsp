@@ -9,25 +9,25 @@
 			<c:when test='${param.menu == "main" }'>
 				<li class="selected"><a href="/mysite/main">홈</a></li>
 				<li><a href="/mysite/guestbook?a=list">방명록</a></li>
-				<li><a href="/mysite/board?a=list">게시판</a></li>
+				<li><a href="/mysite/board?a=list&page=1">게시판</a></li>
 			</c:when>
 			
 			<c:when test='${param.menu == "guestbook" }'>
 				<li><a href="/mysite/main">홈</a></li>
 				<li class="selected"><a href="/mysite/guestbook?a=list">방명록</a></li>
-				<li><a href="/mysite/board">게시판</a></li>
+				<li><a href="/mysite/board?a=list&page=1">게시판</a></li>
 			</c:when>
 			
 			<c:when test='${param.menu == "board" }'>
 				<li><a href="/mysite/main">홈</a></li>
 				<li><a href="/mysite/guestbook?a=list">방명록</a></li>
-				<li class="selected"><a href="/mysite/board">게시판</a></li>
+				<li class="selected"><a href="/mysite/board?a=list&page=1">게시판</a></li>
 			</c:when>
 	
 			<c:otherwise>
 				<li><a href="/mysite/main">홈</a></li>
 				<li><a href="/mysite/guestbook?a=list">방명록</a></li>
-				<li><a href="/mysite/boarda=list"">게시판</a></li>
+				<li><a href="/mysite/board?a=list&page=1">게시판</a></li>
 			</c:otherwise>
 				
 		</c:choose>

@@ -57,7 +57,7 @@
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
-			<c:param name="menu" value="main"/>
+			<c:param name="menu" value="guestbook"/>
 		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 	</div>

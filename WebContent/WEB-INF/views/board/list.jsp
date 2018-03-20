@@ -14,8 +14,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="/mysite/board" method="post">
 					<input type="text" id="kwd" name="kwd" value="">
+					<input type="hidden" name="a" value="list">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -32,14 +33,14 @@
 						<c:choose>
 							<c:when test="${list.isDelete == false }">
 								<tr>
-									<td>${list.no }</td>
+									<td>${page.totalData - status.index - (page.page - 1) * page.dataPerPage }</td>
 									<td style="text-align:left; padding-left:${list.depth*10 }px">
 										<c:choose>
 											<c:when test="${list.depth != 0 }">
 												<img alt="...." src="assets/images/reply.png">
 											</c:when>
 										</c:choose>
-									<a href="/mysite/board?a=view&no=${list.no }">${list.title }</a>
+									<a href="/mysite/board?a=view&no=${list.no }&page=${page.page }">${list.title }</a>
 									</td>
 									<td>${list.userVo.name }</td>
 									<td>${list.hits }</td>
@@ -70,22 +71,25 @@
 				</table>
 				<div class="pager">
 					<ul>
-						<c:if test="${vo.prev}">
-							<li><a href="">◀</a></li>
+						<c:if test="${page.prev}">
+							<li><a href="/mysite/board?a=list&page=${page.startPage-page.displayPage }&kwd=${kwd}">◀</a></li>
 						</c:if>
-						<c:forEach begin="${vo.startPage }" end="${vo.endPage }" var="idx">
-				            <li
-				                <c:out value="${vo.page == idx ? 'class = selected' : ''}"/>>
-				                <a href="list?page=${idx}">${idx}</a>
-				            </li>
+						<c:forEach begin="${page.startPage }" end="${page.endPage }" var="index">
+						<c:choose>
+							<c:when test="${index <= page.totalPage }">
+					            <li ${page.page == index ? 'class = "selected"' : ''}>
+					            	<a href="/mysite/board?a=list&page=${index}&kwd=${kwd}">${index}</a>
+					            </li>
+				            </c:when>
+				            <c:when test="${index > page.totalPage }">
+					            <li ${page.page == index ? 'class = "selected"' : ''}>
+					            	${index}
+					            </li>
+				            </c:when>
+						</c:choose>
 				        </c:forEach>
-						<li><a href="">1</a></li>
-						<li><a href="">2</a></li>
-						<li class="selected">3</li>
-						<li><a href="">4</a></li>
-						<li>5</li>
-						<c:if test="${vo.next}">
-							<li><a href="">▶</a></li>
+						<c:if test="${page.next}">
+							<li><a href="/mysite/board?a=list&page=${page.endPage+1 }&kwd=${kwd}">▶</a></li>
 						</c:if>
 					</ul>
 				</div>				
@@ -95,7 +99,7 @@
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
-			<c:param name="menu" value="main"/>
+			<c:param name="menu" value="board"/>
 		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 	</div>

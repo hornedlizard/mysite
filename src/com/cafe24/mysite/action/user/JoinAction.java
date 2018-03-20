@@ -21,6 +21,12 @@ public class JoinAction implements Action {
 		String gender = request.getParameter("gender");
 		
 		UserVo vo = new UserVo();
+		
+		if (name == "" || email == null || password == null) {
+			WebUtil.redirect(request, response, "/mysite/user?a=joinform");
+			return;
+		}
+		
 		vo.setEmail(email);
 		vo.setName(name);
 		vo.setGender(gender);

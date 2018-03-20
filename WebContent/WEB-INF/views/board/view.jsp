@@ -35,16 +35,30 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="/mysite/board?a=reply&no=${vo.no }">답글</a>
-					<a href="/mysite/board?a=list">글목록</a>
+					<a href="/mysite/board?a=reply&no=${vo.no }&page=${page }">답글</a>
+					<a href="/mysite/board?a=list&page=${page }">글목록</a>
 					<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
 						<a href="/mysite/board?a=modify&no=${vo.no }">글수정</a>
 					</c:if>
 				</div>
+				<table class="tbl-ex">
+					<tr><th>댓글</th></tr>
+					<tr>
+							<td class="label">제목</td>
+							<td><input type="text" name="title" value=""></td>
+						</tr>
+						<tr>
+							<td class="label">내용</td>
+							<td>
+								<textarea id="content" name="content"></textarea>
+							</td>
+						</tr>
+					
+				</table>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
-			<c:param name="menu" value="main"/>
+			<c:param name="menu" value="board"/>
 		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 	</div>

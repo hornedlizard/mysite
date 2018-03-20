@@ -30,6 +30,7 @@ public class WriteAction implements Action {
 		Long groupNo = (request.getParameter("groupNo") == "" ? 0 : Long.parseLong(request.getParameter("groupNo")));
 		Long orderNo = (request.getParameter("orderNo") == "" ? 0 : Long.parseLong(request.getParameter("orderNo")));
 		Long depth = (request.getParameter("depth") == "" ? 0 : Long.parseLong(request.getParameter("depth"))+1);
+		Long page = (request.getParameter("page") == "" ? 1 : Long.parseLong(request.getParameter("page")));
 		
 		if (gno != "" && ono != "" && dep != "") {
 			dao.updateOrderNo(groupNo, orderNo);
@@ -45,7 +46,7 @@ public class WriteAction implements Action {
 		vo.setDepth(depth);
 		dao.insert(vo);
 		
-		WebUtil.redirect(request, response, "/mysite/board?a=list");
+		WebUtil.redirect(request, response, "/mysite/board?a=list&page="+page);
 	}
 
 }

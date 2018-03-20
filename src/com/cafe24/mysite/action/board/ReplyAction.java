@@ -30,9 +30,11 @@ public class ReplyAction implements Action {
 		BoardDao dao = new BoardDao();
 		long no = Long.parseLong(request.getParameter("no"));
 		BoardVo vo = dao.getBoard(no);
+		Long page = (request.getParameter("page") == "" ? 1 : Long.parseLong(request.getParameter("page")));
 		request.setAttribute("groupNo", vo.getGroupNo());
 		request.setAttribute("orderNo", vo.getOrderNo());
 		request.setAttribute("depth", vo.getDepth());
+		request.setAttribute("page", page);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/board/write.jsp");
 	}

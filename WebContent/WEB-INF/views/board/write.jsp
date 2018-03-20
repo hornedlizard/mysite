@@ -19,6 +19,7 @@
 					<input type="hidden" name="groupNo" value="${groupNo }">
 					<input type="hidden" name="orderNo" value="${orderNo }">
 					<input type="hidden" name="depth" value="${depth }">
+					<input type="hidden" name="page" value="${page }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -42,7 +43,7 @@
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
-			<c:param name="menu" value="main"/>
+			<c:param name="menu" value="board"/>
 		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 	</div>
