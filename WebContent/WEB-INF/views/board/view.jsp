@@ -36,7 +36,7 @@
 				</table>
 				<div class="bottom">
 					<a href="/mysite/board?a=reply&no=${vo.no }&page=${page }">답글</a>
-					<a href="/mysite/board?a=list&page=${page }">글목록</a>
+					<a href="/mysite/board?a=list&page=${page }&kwd=${kwd}">글목록</a>
 					<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
 						<a href="/mysite/board?a=modify&no=${vo.no }">글수정</a>
 					</c:if>
